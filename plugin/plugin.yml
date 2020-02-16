@@ -1,0 +1,16 @@
+main: de.alpmann.youtube.geceroland.Main
+name: geceroland
+author: Gecero
+description: vary gut plakinn
+version: 1.0
+
+commands: 
+  tntcannon: 
+    description: spawns a tnt cannon that shoots you about n blocks in the given direction
+    permission: tntcannon.use
+    permission-message: you need tntcannon.use
+    usage: /tntcannon north 300
+permissions: 
+  tntcannon.use: 
+    default: op
+    description: allows the player to use the tnt cannon
