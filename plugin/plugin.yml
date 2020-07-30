@@ -1,8 +1,9 @@
 main: de.alpmann.youtube.geceroland.Main
 name: geceroland
 author: Gecero
-description: vary gut plakinn
-version: 1.0
+description: a collection of maybe useful stuff for your minecraft server
+version: 2.1
+api-version: 1.13
 
 commands: 
   tntcannon: 
@@ -14,3 +15,6 @@ permissions:
   tntcannon.use: 
     default: op
     description: allows the player to use the tnt cannon
+  enderpearlride:
+    default: true
+    description: allows the player to ride on ender pearls he throws

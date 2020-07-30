@@ -1,0 +1,21 @@
+WHAT YOU NEED TO BUILD
+
+1. Open eclipse. Go to File>Open Projects from file 
+   system and import the "plugin" folder
+
+2. get a copy of spigot build tools. use it to create
+   a fresh spigot.jar file. by default the spigot.jar
+   is supposed to be in the subdirectory of the main
+   project directory, but you can change that. also,
+   the spigot.jar file can be used to host a local
+   server
+
+3. edit the code by your needs and save everything.
+
+4. now, in eclipse, go to File>Export>Java>JAR file.
+   on the "resources to export" page, select the 
+   "plugin" folder and plugin.yml file. Then save
+   the JAR file. Put the JAR file into the plugins
+   folder in your minecraft server and start it up.
+
+last revision: 30.07.2020 (DD.MM.YYYY)
