@@ -28,7 +28,6 @@ public class TNTCannon extends CommandBase {
 		if(sender instanceof Player == false)
 			return -3;
 		
-		
 		Vector directionVector;
 		float distance = Float.valueOf(args[1]);
 		// see file "distance fix.xlsx"
@@ -52,13 +51,7 @@ public class TNTCannon extends CommandBase {
 			return -4;
 		}
 		
-		
-		// important stuff:
-		// Player.getLocation();
-		// World.getBlockAt();
-		// 1 tnt ~ 20 blocks
-		
-		Player player = Bukkit.getPlayer(sender.getName());
+		Player player = (Player)sender;
 		World world = player.getWorld();
 		Location pos = player.getLocation(); // player position
 		player.setFlying(false);
@@ -78,14 +71,13 @@ public class TNTCannon extends CommandBase {
 		player.teleport(new Location(world, x, y, z));
 		
 		
-		// spawn tnt
-		float up = distance/20;
+		// -----Here begins the SPAWN TNT part-----
 		float directional = distance/15;
-		up /= 8; // 1 up loop spawns 8 tnt
-		up = (float) Math.pow(up, 0.25f); // up value is too much in general
 		
+		// tnt's to get the player up are only primed when the value
+		// of sideways tnt's is low (low distance=low sideways tnt's)
+		// because theese tnt's also catapult the player up
 		if(distance < 150) {
-			for(int i = 0; i < Math.round(up); i++) {
 				GameUtils.spawnPlayerRelativeEntity(player, -1, -1, -1, EntityType.PRIMED_TNT);
 				GameUtils.spawnPlayerRelativeEntity(player, 0, -1, -1, EntityType.PRIMED_TNT);
 				GameUtils.spawnPlayerRelativeEntity(player, 1, -1, -1, EntityType.PRIMED_TNT);
@@ -96,23 +88,30 @@ public class TNTCannon extends CommandBase {
 				GameUtils.spawnPlayerRelativeEntity(player, -1, -1, 1, EntityType.PRIMED_TNT);
 				GameUtils.spawnPlayerRelativeEntity(player, 0, -1, 1, EntityType.PRIMED_TNT);
 				GameUtils.spawnPlayerRelativeEntity(player, 1, -1, 1, EntityType.PRIMED_TNT);
-			}
 		}
 		
 		
-		directionVector.multiply(-1f); // inverse. so when moving north the tnt gets placed south
+		directionVector.multiply(-1f); // inverse. so when given parameter north the tnt gets placed south
 		
 		for(int i = 0; i < Math.ceil(directional); i++) {
 			Vector tmpVector = directionVector.clone();
-			float spawnY = (float)0;
 			
+			// the height where the tnt is spawned.
+			// the explosion height relative to the
+			// player affects the angle
+			float spawnY = -1f;
+			
+			// distance/300 to get it smaller and
+			// times 4 because the water pool is
+			// 4x4 in size
 			float multiplier = distance/300*4;
-			if(multiplier > 4) {
-				multiplier = 4;
-				spawnY = -1f + (4-multiplier);
-				if(spawnY >= -0.1f) // we need some angle
-					spawnY = -0.1f; // at least
-			}
+			if(multiplier > 4f)
+				multiplier = 4f;
+			
+			spawnY = (-1f) + multiplier/4f;
+			if(spawnY >= -0.15f) // we need a minimum angle so the player
+				spawnY = -0.15f; // doesnt just get pushed ONLY sideways
+			
 			tmpVector.multiply(multiplier);
 			
 			float spawnX = (float)tmpVector.getX();
@@ -125,6 +124,7 @@ public class TNTCannon extends CommandBase {
 		return 0;
 	}
 	
+	// just dont think about it, let your mind accept this function
 	float fix(float distance) {
 		return (float)Math.sin(0.275 * (double)distance * Math.PI) * (float)(distance / Math.PI);
 	}
